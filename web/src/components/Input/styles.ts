@@ -1,6 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+    isFocused?: boolean;
+    notEmpty?: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
 
     background: #232129;
     border-radius: 10px;
@@ -15,6 +20,15 @@ export const Container = styled.div`
     & + div {
         margin-top: 8px;
     }
+
+    ${({ isFocused }) => isFocused && css`
+        color: #ff9000;
+        border-color: #ff9000;
+    `}
+
+    ${({ notEmpty }) => !!notEmpty && css`
+        color: #ff9000;
+    `}
 
     input {
 
