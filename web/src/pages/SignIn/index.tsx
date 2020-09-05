@@ -14,11 +14,20 @@ import Button from '../../components/Button';
 import { Container, Content, Background } from "./styles";
 import { getAllValidationErrors } from '../../utils/validations';
 
+import { useSession } from "../../hooks/SessionContext";
+
+interface SignInFormData {
+    email: string;
+    password: string;
+}
+
 const SignIn: FC = () => {
+
+    const { signIn } = useSession();
 
     const formRef = useRef<FormHandles>(null);
 
-    const handleSubmit = useCallback(async (data: object): Promise<void> => {
+    const handleSubmit = useCallback(async (data: SignInFormData): Promise<void> => {
 
         try {
 
@@ -38,11 +47,24 @@ const SignIn: FC = () => {
                 abortEarly: false
             });
 
+            const { email, password } = data;
+
+            signIn({
+                email,
+                password
+            });
+
         } catch (error) {
-            const errors = getAllValidationErrors(error);
-            formRef.current?.setErrors(errors);
+
+            if (error instanceof Yup.ValidationError) {
+                const errors = getAllValidationErrors(error);
+                formRef.current?.setErrors(errors);
+            }
+
+            
         }
-    }, []);
+
+    }, [signIn]);
 
     return (
         <Container>
