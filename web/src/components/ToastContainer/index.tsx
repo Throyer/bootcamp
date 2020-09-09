@@ -1,47 +1,32 @@
 import React, { FC } from "react";
-import { FiAlertCircle, FiXCircle } from "react-icons/fi";
+import { useTransition } from "react-spring";
 
-import { Container, Toast } from "./styles";
+import { ToastMessage } from "../../hooks/toast";
+import Toast from "./Toast";
 
-const ToastContainer: FC = () => {
+import { Container } from "./styles";
+
+interface ToastContainerProps {
+    messages: ToastMessage[];
+}
+
+const ToastContainer: FC<ToastContainerProps> = ({ messages }) => {
+
+    const transitions = useTransition(messages, ({ id }) => id, {
+        from: { right: "-120%", opacity: 0 },
+        enter: { right: "0%", opacity: 1 },
+        leave: { right: "-120%", opacity: 0 }
+    })
 
     return (
         <Container>
-            <Toast hasDescription>
-                <FiAlertCircle size={20} />
-
-                <div>
-                    <strong>Toast works!</strong>
-                    <p>Deu um ruim ai.</p>
-                </div>
-                
-                <button type="button">
-                    <FiXCircle size={18} />
-                </button>
-            </Toast>
-            <Toast type="success" hasDescription={false}>
-                <FiAlertCircle size={20} />
-
-                <div>
-                    <strong>Toast works!</strong>
-                </div>
-                
-                <button type="button">
-                    <FiXCircle size={18} />
-                </button>
-            </Toast>
-            <Toast hasDescription type="danger">
-                <FiAlertCircle size={20} />
-
-                <div>
-                    <strong>Toast works!</strong>
-                    <p>Deu um ruim ai.</p>
-                </div>
-                
-                <button type="button">
-                    <FiXCircle size={18} />
-                </button>
-            </Toast>
+            {transitions.map(({ item, key, props }) => (
+                <Toast 
+                    key={key}
+                    style={props}
+                    message={item}
+                />
+            ))}
         </Container>
     );
 }
