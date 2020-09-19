@@ -1,6 +1,6 @@
 import React, { FC, useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { LOGO } from '../../utils/assets';
 
@@ -28,6 +28,8 @@ const SignIn: FC = () => {
 
     const { signIn } = useSession();
     const { addToast } = useToast();
+
+    const history = useHistory();
 
     const formRef = useRef<FormHandles>(null);
 
@@ -58,21 +60,23 @@ const SignIn: FC = () => {
                 password
             });
 
+            history.push("/dashboard");
+
         } catch (error) {
 
             if (error instanceof Yup.ValidationError) {
                 const errors = getAllValidationErrors(error);
                 formRef.current?.setErrors(errors);
+            } else {
+                addToast({
+                    title: "Erro ao fazer login",
+                    description: "Senha ou usuario icorretos.",
+                    type: "danger"
+                });
             }
-
-            addToast({
-                title: "Erro ao fazer login",
-                description: "Senha ou usuario icorretos.",
-                type: "danger"
-            });
         }
 
-    }, [signIn, addToast]);
+    }, [history, signIn, addToast]);
 
     return (
         <Container>
