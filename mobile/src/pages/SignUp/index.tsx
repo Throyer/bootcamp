@@ -18,6 +18,7 @@ import { FormHandles } from "@unform/core";
 
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import api from "../../services/api";
 
 import { LOGO } from "../../utils/assets";
 
@@ -41,7 +42,7 @@ const SignUp: FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const { navigate } = useNavigation();
+  const { goBack } = useNavigation();
 
   const handleSignUp = useCallback(async (data: SignUpFormData): Promise<
     void
@@ -61,9 +62,14 @@ const SignUp: FC = () => {
         abortEarly: false,
       });
 
-      // await api.post("/users", data);
+      await api.post("/users", data);
 
-      // history.push("/");
+      Alert.alert(
+        "Cadastro realizado com sucesso.",
+        "Você já pode fazer login."
+      );
+
+      goBack();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getAllValidationErrors(error);
