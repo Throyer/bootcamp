@@ -2,8 +2,8 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": "docker",
+    "username": "root",
+    "password": "root",
     "database": "go_barber",
     "migrations": [
         "./src/database/migrations/*.ts"
