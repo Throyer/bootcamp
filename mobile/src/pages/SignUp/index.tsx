@@ -42,7 +42,7 @@ const SignUp: FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   const handleSignUp = useCallback(async (data: SignUpFormData): Promise<
     void
