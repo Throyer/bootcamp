@@ -1,16 +1,14 @@
-import { EntityRepository, Repository } from "typeorm";
-import Appointment from "../models/Appointment";
+import { EntityRepository, Repository } from 'typeorm';
+import Appointment from '../entities/Appointment';
 
 @EntityRepository(Appointment)
 class AppointmentRepository extends Repository<Appointment> {
-
     public async findByDate(date: Date): Promise<Appointment | undefined> {
-        
         const appointment = await this.findOne({
-            where: { date }
+            where: { date },
         });
 
-        return appointment
+        return appointment;
     }
 }
 

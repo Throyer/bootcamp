@@ -1,11 +1,10 @@
-import path from "path";
-import fs from "fs";
-
-import { getRepository } from "typeorm";
-import User from "../models/User";
-import { DIRECTORY } from "../config/uploading";
-import HttpStatusError from "../errors/HttpStatusError";
-import { HttpStatus } from "../utils/http-status";
+import fs from 'fs';
+import path from 'path';
+import { getRepository } from 'typeorm';
+import { DIRECTORY } from '../../../config/uploading';
+import HttpStatusError from '../../../shared/errors/HttpStatusError';
+import { HttpStatus } from '../../../utils/http-status';
+import User from '../entities/User';
 
 interface AvatarFrom {
     user_id: string;
@@ -13,14 +12,16 @@ interface AvatarFrom {
 }
 
 class UpdateUserAvatarService {
-
     public async execute({ user_id, filename }: AvatarFrom): Promise<User> {
         const repository = getRepository(User);
 
         const user = await repository.findOne({ where: { id: user_id } });
 
         if (!user) {
-            throw new HttpStatusError("Usuario não autorizado a trocar de avatar.", HttpStatus.FORBIDDEN)
+            throw new HttpStatusError(
+                'Usuario não autorizado a trocar de avatar.',
+                HttpStatus.FORBIDDEN,
+            );
         }
 
         if (user.avatar) {
