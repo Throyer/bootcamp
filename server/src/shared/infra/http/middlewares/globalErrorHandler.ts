@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpStatus } from '../../utils/http-status';
-import HttpStatusError from '../errors/HttpStatusError';
+import { HttpStatus } from '../../../../utils/http-status';
+import HttpStatusError from '../../../errors/HttpStatusError';
 
 export default function globalErrorHandler(
     error: Error,

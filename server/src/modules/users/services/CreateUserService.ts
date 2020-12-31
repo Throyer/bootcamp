@@ -1,8 +1,11 @@
-import { hash } from 'bcryptjs';
 import { getRepository } from 'typeorm';
-import HttpStatusError from '../../../shared/errors/HttpStatusError';
-import { HttpStatus } from '../../../utils/http-status';
-import User from '../entities/User';
+import { hash } from 'bcryptjs';
+
+import HttpStatusError from '@shared/errors/HttpStatusError';
+
+import { HttpStatus } from '@utils/http-status';
+
+import User from '@modules/users/infra/typeorm/entities/User';
 
 interface UserForm {
     name: string;

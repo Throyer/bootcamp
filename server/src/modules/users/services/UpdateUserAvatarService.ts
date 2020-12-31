@@ -1,10 +1,14 @@
+import { getRepository } from 'typeorm';
 import fs from 'fs';
 import path from 'path';
-import { getRepository } from 'typeorm';
-import { DIRECTORY } from '../../../config/uploading';
-import HttpStatusError from '../../../shared/errors/HttpStatusError';
-import { HttpStatus } from '../../../utils/http-status';
-import User from '../entities/User';
+
+import { DIRECTORY } from '@config/uploading';
+
+import HttpStatusError from '@shared/errors/HttpStatusError';
+
+import { HttpStatus } from '@utils/http-status';
+
+import User from '@modules/users/infra/typeorm/entities/User';
 
 interface AvatarFrom {
     user_id: string;

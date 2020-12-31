@@ -1,10 +1,12 @@
+import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { getRepository } from 'typeorm';
-import { JWT } from '../../../config/authentication';
-import HttpStatusError from '../../../shared/errors/HttpStatusError';
-import { HttpStatus } from '../../../utils/http-status';
-import User from '../entities/User';
+
+import { JWT } from '@config/authentication';
+import HttpStatusError from '@shared/errors/HttpStatusError';
+import { HttpStatus } from '@utils/http-status';
+
+import User from '@modules/users/infra/typeorm/entities/User';
 
 interface SessionForm {
     email: string;

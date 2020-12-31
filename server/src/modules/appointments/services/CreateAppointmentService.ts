@@ -1,9 +1,12 @@
-import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
-import Appointment from '../entities/Appointment';
-import HttpStatusError from '../../../shared/errors/HttpStatusError';
-import { HttpStatus } from '../../../utils/http-status';
-import AppointmentRepository from '../repositories/AppointmentRepository';
+import { startOfHour } from 'date-fns';
+
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import AppointmentRepository from '@modules/appointments/repositories/AppointmentRepository';
+
+import HttpStatusError from '@shared/errors/HttpStatusError';
+
+import { HttpStatus } from '@utils/http-status';
 
 interface AppointmentForm {
     provider_id: string;
