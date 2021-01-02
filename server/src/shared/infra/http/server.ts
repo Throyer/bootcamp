@@ -13,6 +13,7 @@ import { DIRECTORY } from '@config/uploading';
 
 import '@config/authentication';
 import '@shared/infra/typeorm';
+import '@shared/container';
 
 const PORT = 3333;
 const app = express();

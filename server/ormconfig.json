@@ -6,12 +6,12 @@
     "password": "root",
     "database": "go_barber",
     "migrations": [
-        "./src/database/migrations/*.ts"
+        "./src/shared/inra/typeorm/migrations/*.ts"
     ],
     "cli": {
-        "migrationsDir": "./src/database/migrations"
+        "migrationsDir": "./src/shared/inra/typeorm/migrations"
     },
     "entities": [
-        "./src/models/*.ts"
+        "./src/modules/**/infra/typeorm/entities/*.ts"
     ]
 }

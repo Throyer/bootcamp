@@ -1,6 +1,7 @@
-import { getRepository } from 'typeorm';
 import fs from 'fs';
 import path from 'path';
+
+import { inject, injectable } from 'tsyringe';
 
 import { DIRECTORY } from '@config/uploading';
 
@@ -9,17 +10,19 @@ import HttpStatusError from '@shared/errors/HttpStatusError';
 import { HttpStatus } from '@utils/http-status';
 
 import User from '@modules/users/infra/typeorm/entities/User';
+import UserRepository from '../repositories/UserRepository';
 
 interface AvatarFrom {
     user_id: string;
     filename: string;
 }
 
+@injectable()
 class UpdateUserAvatarService {
-    public async execute({ user_id, filename }: AvatarFrom): Promise<User> {
-        const repository = getRepository(User);
+    constructor(@inject('UserRepository') private repository: UserRepository) {}
 
-        const user = await repository.findOne({ where: { id: user_id } });
+    public async execute({ user_id, filename }: AvatarFrom): Promise<User> {
+        const user = await this.repository.findById(user_id);
 
         if (!user) {
             throw new HttpStatusError(
@@ -39,7 +42,7 @@ class UpdateUserAvatarService {
 
         user.avatar = filename;
 
-        await repository.save(user);
+        await this.repository.update(user);
 
         return user;
     }

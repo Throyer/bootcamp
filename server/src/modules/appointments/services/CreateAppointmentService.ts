@@ -1,8 +1,9 @@
-import { getCustomRepository } from 'typeorm';
 import { startOfHour } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import AppointmentRepository from '@modules/appointments/repositories/AppointmentRepository';
+
+import AppointmentRepository from '@modules/appointments/repositories/AppointmentsRepository';
 
 import HttpStatusError from '@shared/errors/HttpStatusError';
 
@@ -13,10 +14,12 @@ interface AppointmentForm {
     date: Date;
 }
 
+@injectable()
 class CreateAppointService {
-    private repository: AppointmentRepository = getCustomRepository(
-        AppointmentRepository,
-    );
+    constructor(
+        @inject('AppointmentRepository')
+        private repository: AppointmentRepository,
+    ) {}
 
     public async execute({
         provider_id,

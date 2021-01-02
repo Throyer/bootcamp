@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+import { container } from 'tsyringe';
 
 import { STORAGE } from '@config/uploading';
 
@@ -8,15 +9,14 @@ import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarSer
 
 import authenticationCheck from '@modules/users/infra/http/middlewares/authenticationCheck';
 
-const service = new CreateUserService();
-const avatarService = new UpdateUserAvatarService();
-
 const users = Router();
 
 const upload = multer(STORAGE);
 
 users.post('/', async (request, response) => {
     const { name, email, password } = request.body;
+
+    const service = container.resolve(CreateUserService);
 
     const user = await service.execute({
         name,
@@ -34,7 +34,10 @@ users.patch(
     authenticationCheck,
     upload.single('avatar'),
     async (request, response) => {
-        const user = await avatarService.execute({
+
+        const service = container.resolve(UpdateUserAvatarService);
+
+        const user = await service.execute({
             user_id: request.user.id,
             filename: request.file.filename,
         });

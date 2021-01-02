@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
@@ -7,6 +7,7 @@ import HttpStatusError from '@shared/errors/HttpStatusError';
 import { HttpStatus } from '@utils/http-status';
 
 import User from '@modules/users/infra/typeorm/entities/User';
+import UserRepository from '../repositories/UserRepository';
 
 interface SessionForm {
     email: string;
@@ -18,13 +19,15 @@ interface SessionDTO {
     token: string;
 }
 
+@injectable()
 class AuthenticateUserService {
+    constructor(@inject('UserRepository') private repository: UserRepository) {}
+
     public async execute({
         email,
         password,
     }: SessionForm): Promise<SessionDTO> {
-        const repository = getRepository(User);
-        const user = await repository.findOne({ where: { email } });
+        const user = await this.repository.findByEmail(email);
 
         if (!user) {
             throw new HttpStatusError(
