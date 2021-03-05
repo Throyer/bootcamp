@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jest": true
     },
     "extends": [
         "airbnb-base",
@@ -29,7 +30,7 @@
         ],
         "prettier/prettier": "error",
         "class-methods-use-this": "off",
-        "consistent-return":"off",
+        "consistent-return":"off"
     },
     "settings": {
         "import/resolver": {
