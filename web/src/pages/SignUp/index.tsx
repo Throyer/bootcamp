@@ -30,7 +30,7 @@ const SignUp: FC = () => {
     const { addToast } = useToast();
     const history = useHistory();
 
-    const handleSubmit = useCallback(async (data: object): Promise<void> => {
+    const handleSubmit = useCallback(async (data: SignFormData): Promise<void> => {
 
         try {
 
